@@ -7,9 +7,9 @@ from .MalConv import MalConv
 from .ember import predict_sample
 
 
-MALCONV_MODEL_PATH = "malworkz/models/malconv/malconv.checkpoint"
-NONNEG_MODEL_PATH = "malworkz/models/nonneg/nonneg.checkpoint"
-EMBER_MODEL_PATH = "malworkz/models/ember/ember_model.txt"
+MALCONV_MODEL_PATH = "models/malconv/malconv.checkpoint"
+NONNEG_MODEL_PATH = "models/nonneg/nonneg.checkpoint"
+EMBER_MODEL_PATH = "models/ember/ember_model.txt"
 
 
 class MalConvModel(object):
