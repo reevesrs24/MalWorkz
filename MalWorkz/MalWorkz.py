@@ -38,43 +38,54 @@ class ActionSet(IntEnum):
 
 
 class State:
-    def __init__(self):
-        self.epoch = 0
-        self.action_list = []
-        self.pe_past_state = None
-        self.prediction_to_beat = 1
-        self.pe_past_section_info_state = None
-        self.action_set = [
+    def __init__(
+        self,
+        action_set=[
             ActionSet.RANDOMIZE_HEADERS,
             ActionSet.ADD_SECTION,
             ActionSet.ADD_CODE_CAVE,
             ActionSet.ADD_STUB_AND_ENCRYPT_CODE,
             ActionSet.RENAME_EXISTING_SECTION,
             ActionSet.SIGN_PE,
-        ]
+        ],
+    ):
+        self.epoch = 0
+        self.action_list = []
+        self.pe_past_state = None
+        self.prediction_to_beat = 1
+        self.pe_past_section_info_state = None
+        self.action_set = action_set
 
 
 class MalWorkz:
     def __init__(
         self,
-        path,
-        pe_name,
-        code_cave_size=512,
+        malware_path,
+        new_pe_name,
         step=0.00001,
         threshold=0.5,
         max_pe_size_bytes=2000000,
         model="ember",
+        max_variants=100,
+        action_set=[
+            ActionSet.RANDOMIZE_HEADERS,
+            ActionSet.ADD_SECTION,
+            ActionSet.ADD_CODE_CAVE,
+            ActionSet.ADD_STUB_AND_ENCRYPT_CODE,
+            ActionSet.RENAME_EXISTING_SECTION,
+            ActionSet.SIGN_PE,
+        ],
     ):
-        self.pe = pefile.PE(path)
+        self.pe = pefile.PE(malware_path)
         self.step = step
         self.model = model
-        self.pe_path = path
-        self.state = State()
-        self.pe_name = pe_name
-        self.max_variants = 1000
+        self.malware_path = malware_path
+        self.state = State(action_set=action_set)
+        self.new_pe_name = new_pe_name
+        self.max_variants = max_variants
+        self.code_cave_size = 512
         self.threshold = threshold
         self.section_data_choices = []
-        self.code_cave_size = code_cave_size
         self.max_pe_size_bytes = max_pe_size_bytes
         self.section_info = collections.OrderedDict()
         self.pe.__data__ = bytearray(self.pe.__data__)
@@ -684,7 +695,7 @@ class MalWorkz:
         if os.path.exists("temp/"):
             shutil.rmtree("temp/")
 
-        self.pe.write(self.pe_name)
+        self.pe.write(self.new_pe_name)
         self.pe.close()
 
     def select_random_action(self):
@@ -701,7 +712,7 @@ class MalWorkz:
             self.add_stub_and_encrypt_code_section()
 
     def evaluate(self):
-        file_data = open(self.pe_name, "rb").read()
+        file_data = open(self.new_pe_name, "rb").read()
 
         if self.model == "malconv":
             malconv = MalConvModel(MALCONV_MODEL_PATH, thresh=0.5)
@@ -731,7 +742,7 @@ class MalWorkz:
                 self.sign_exe()
 
             prediction_score = self.evaluate()
-            file_size = os.path.getsize(self.pe_name)
+            file_size = os.path.getsize(self.new_pe_name)
 
             if (
                 prediction_score <= self.threshold
