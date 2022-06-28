@@ -8,7 +8,7 @@ A Reinforcement Learning Engine for Bypassing Machine Learning Classifiers
 MalWorkz is a reinforcment learning engine that attempts to bypass machine learning classifers by manipulating a Portable Executable (PE) file through a set of 6 distinct methods.  Works with x32 PE/.NET/.dll files and with a variety of file formats such as UPX or MSI.  
 
 ## Setup
-Python version `3.6.2` <b>MUST</b> be used.  
+Python version `3.6` <b>MUST</b> be used.  
 
 Install the `requirements.txt` file in a python virtual environment.
 ```bash
