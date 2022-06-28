@@ -11,7 +11,7 @@ MalWorkz is a reinforcment learning engine that attempts to bypass machine learn
 3.  AddressOfEntryPoint Section Encryption
 4.  Section Addition
 5.  Section Renaming
-6.  PE Signing.  
+6.  PE Signing
 
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
