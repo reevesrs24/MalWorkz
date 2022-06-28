@@ -1,4 +1,4 @@
-from MalWorkz import MalWorkz
+from MalWorkz.MalWorkz import MalWorkz
 
 
 def main():

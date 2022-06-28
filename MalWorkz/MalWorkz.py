@@ -14,8 +14,8 @@ import collections
 
 from enum import IntEnum
 from functools import reduce
-from constants import SECTION_LIST
-from models import (
+from .constants import SECTION_LIST
+from .models import (
     MalConvModel,
     EmberModel,
     MALCONV_MODEL_PATH,
