@@ -5,7 +5,13 @@ A Reinforcement Learning Engine for Bypassing Machine Learning Classifiers
 >\- *Robert Ford* 
 
 ## Overview
-MalWorkz is a reinforcment learning engine that attempts to bypass machine learning classifers by manipulating a Portable Executable (PE) file through a set of 6 distinct methods.  Works with x32 PE/.NET/.dll files and with a variety of file formats such as UPX or MSI.  The 6 different obfuscation techniques utilized in this engine are header randomization, section addition, code cave creation, AddressOfEntryPoiny section encryption, section renaming and pe signing.  
+MalWorkz is a reinforcment learning engine that attempts to bypass machine learning classifers by manipulating a Portable Executable (PE) file through a set of 6 distinct methods.  Works with x32 PE/.NET/.dll files and with a variety of file formats such as UPX or MSI.  The 6 different obfuscation techniques utilized in this engine are 
+1.  Header Randomization
+2.  Code Cave Creation
+3.  AddressOfEntryPoint Section Encryption
+4.  Section Addition
+5.  Section Renaming
+6.  PE Signing.  
 
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
