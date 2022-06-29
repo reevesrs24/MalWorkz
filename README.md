@@ -66,9 +66,6 @@ This technique XOR encrypts the main code section which is primarily the `.text`
 ### Section Addition
 Random data sections can also be added to a PE file in another attempt to try and confuse machine learnine malware classifers.  Sections from legitimate Windows binaries were extracted and placed into the `data_sections` directory.  These sections are then used to try to create an "apperance" of a legitiamte Windows binary.  This technique is effective against classifiers that use N-Gram analysis as a feature. 
 
-### Section Renaming
-This technique merely uses a list of common PE section names and renames the section with a name from that list.  Common section names are `.ndata`, `.bss`, `edata`, `00cfg`, etc.
-
 <br/>
 <p align="center">
   <img width="560" height="225" src="images/before.PNG">
@@ -80,6 +77,9 @@ This technique merely uses a list of common PE section names and renames the sec
   <img width="560" height="300" src="images/after.PNG">
   <p align="center"><i>PE After Adding Sections</i></p>
 </p>
+
+### Section Renaming
+This technique merely uses a list of common PE section names and renames the section with a name from that list.  Common section names are `.ndata`, `.bss`, `edata`, `00cfg`, etc.
 
 ### PE Signing
 Digitally signing the PE with a self signed certificate was also incorporated into the engine dince some malware classifiers use a digital signture as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`. 
