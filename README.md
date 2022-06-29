@@ -63,8 +63,6 @@ Random data sections can also be added to a PE file in another attempt to try an
 ### Section Renaming
 This technique merely uses a list of common PE section names and renames the section with a name from that list.  Common section names are `.ndata`, `.bss`, `edata`, `00cfg`, etc.
 
-### PE Signing
-
 <br/>
 <p align="center">
   <img width="560" height="225" src="images/before.PNG">
@@ -77,6 +75,8 @@ This technique merely uses a list of common PE section names and renames the sec
   <p align="center"><i>PE After Adding Sections</i></p>
 </p>
 
+### PE Signing
+
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
 
@@ -87,3 +87,12 @@ pip install -r requirements.txt
 Unzip `models.zip`
 
 Install Windows [SignTool](https://docs.microsoft.com/en-us/windows/win32/seccrypto/signtool).  This tool is used for signing PE files.  The MalWorkz engine will use `SignTool` in conjuction with a supplied `.pfx` file.  After `SignTool` is installed add the location to Windows system environment varibles so that the program may call it.  
+
+## References
+MalConv Class/Model were taken from the repo - [Malware Evasion Competition](https://github.com/endgameinc/malware_evasion_competition)
+</br>
+MalConv White Paper - [Malware Detection by Eating a Whole EXE](https://arxiv.org/pdf/1710.09435.pdf)
+</br>
+Code Cave White Paper - [Optimization of code caves in malware binaries to evade machine learning detectors](https://www.sciencedirect.com/science/article/pii/S0167404822000426)
+</br>
+RootedCon 2020 Code Cave Talk - [Evading Deep Learning Malware Detectors](https://www.youtube.com/watch?v=Qp4hx6HTHrQ)
