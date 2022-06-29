@@ -66,7 +66,7 @@ class MalWorkz:
         threshold=0.5,
         max_pe_size_bytes=2000000,
         model="ember",
-        max_variants=100,
+        max_epochs=100,
         action_set=[
             ActionSet.RANDOMIZE_HEADERS,
             ActionSet.ADD_SECTION,
@@ -82,7 +82,7 @@ class MalWorkz:
         self.malware_path = malware_path
         self.state = State(action_set=action_set)
         self.new_pe_name = new_pe_name
-        self.max_variants = max_variants
+        self.max_epochs = max_epochs
         self.code_cave_size = 512
         self.threshold = threshold
         self.section_data_choices = []
@@ -508,7 +508,7 @@ class MalWorkz:
 
     def sign_exe(self):
         try:
-            command = "signtool sign /f mycert.pfx /p MyPassword /fd SHA256 new.exe"
+            command = "signtool sign /f MalWorkz/mycert.pfx /p MyPassword /fd SHA256 {}".format(self.new_pe_name)
             subprocess.check_call(
                 shlex.split(command),
                 stdin=subprocess.DEVNULL,
@@ -732,7 +732,7 @@ class MalWorkz:
         self.state.pe_past_state = copy.deepcopy(self.pe)
         self.state.pe_past_section_info_state = copy.deepcopy(self.section_info)
 
-        for _ in range(self.max_variants):
+        for _ in range(self.max_epochs):
             self.state.epoch += 1
             self.state.action_list.append(self.select_random_action())
             self.execute_action(self.state.action_list[-1])
