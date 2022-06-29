@@ -30,18 +30,20 @@ There are a number of PE header's that can be randomly chosen which will not eff
 13. `TimeDateStamp`
 
 ### Code Cave Creation
-## Overview
 Code cave creation within a Windows Portable Executable (PE) is an interesting technique to bypass malware classifiers which utilize the entire byte sequence or raw bytes of a PE as their input feature.  Code caves are the "slack space" or byte space within a PE section that is unused by the program, but is created in order to adhere to the `SectionAlignment` header within the PE.  All PE sections must adhere to the byte alignment specified by this header value and if the section data does not directly align itself on this boundary the compiler will add null bytes as padding to ensure that the section is the specified size.
 
 <br/>
 
-Code caves can be created by modifying the `RawAddress` variable within the each section's header.  Arbitrary data can then be added in between each section which can then be used to "confuse" malware classifiers which attempt to use an entire binary's raw data as an input feature.  
+Code caves can be created by modifying the `RawAddress` variable within the each section's header.  Arbitrary data can then be added in between each section which can then be used to "confuse" malware classifiers which attempt to use an entire binary's raw data as an input feature.  MalWorkz will create code caves in 512 byte increments and inject randomly chosen data from benign PE sections harvested from Windows SysWOW64 executables.  
 
 <br/>
 <p align="center">
   <img width="460" height="300" src="images/code_cave.png">
   <p align="center"><i>Representation of the memory mapping of the original sample and a modified version with unused spaces introduced by the attacker (Yuste et al., 2022)</i></p>
 </p>
+
+### AddressOfEntryPoint Section Encryption
+This technique XOR encrypts the main code section which is primarily the `.text` section of the PE.  The program will find the section which maps to the `AddressOfEntryPoint` XOR encrypt the section with a 1 byte key and either inject decrypting shellcode into the slack space of that section if there is enough free bytes or create a new section with the decryption shellcode data.  During runtime the shellcode will decrypt the main code section and upon its completion will jump back to the original entrypoint.  This technique is especially effective for .NET PE's whose import section maps to the main code section.  This effectively encrypts all imports and obfuscates them from malware classifers which attempt to utilize imports for feature extraction.  Imprts are resolved at runtime and not when the .NET exe is loaded into memory unlike generic x32 PE's or dll's.  
 
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
