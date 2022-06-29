@@ -51,6 +51,12 @@ This technique XOR encrypts the main code section which is primarily the `.text`
   <p align="center"><i>Import Directory is Obfuscated</i></p>
 </p>
 
+<br/>
+<p align="center">
+  <img width="960" height="150" src="images/net_encryption.PNG">
+  <p align="center"><i>Python LIEF Module Attempting to Read the Import Table</i></p>
+</p>
+
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
 
