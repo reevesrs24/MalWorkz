@@ -15,7 +15,7 @@ MalWorkz is a reinforcment learning engine that attempts to bypass machine learn
 
 ### Header Randomizatiom
 There are a number of PE header's that can be randomly chosen which will not effect the behavior of the PE nor corrupt the image.  The headers which will be manipulated are 
-1. `DllCharacteristics`
+1. `DllCharacteristics` (Optional Header)
 2. `Characteristics` (File Header)
 3. `Debug Directory RVA` (Zeroed Out)
 4. `Debug Directory Size` (Zeroed Out)
