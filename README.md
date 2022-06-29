@@ -14,6 +14,20 @@ MalWorkz is a reinforcment learning engine that attempts to bypass machine learn
 6.  PE Signing
 
 ### Header Randomizatiom
+There are a number of PE header's that can be randomly chosen which will not effect the behavior of the PE nor corrupt the image.  The headers which will be manipulated are 
+1. `DllCharacteristics`
+2. `Characteristics` (File Header)
+3. `Debug Directory RVA` (Zeroed Out)
+4. `Debug Directory Size` (Zeroed Out)
+5. `MajorImageVersion`
+6. `MinorImageVersion`
+7. `MajorOperatingSystemVersion`
+8. `MinorOperatingSystemVersion`
+9. `SizeOfStackReserve`
+10. `SizeOfStackCommit`
+11. `MajorLinkerVersion`
+12. `MinorLinkerVersion`
+13. `TimeDateStamp`
 
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
