@@ -42,6 +42,9 @@ Code caves can be created by modifying the `RawAddress` variable within the each
   <p align="center"><i>Representation of the memory mapping of the original sample and a modified version with unused spaces introduced by the attacker (Yuste et al., 2022)</i></p>
 </p>
 
+### AddressOfEntryPoint Section Encryption
+This technique XOR encrypts the main code section which is primarily the `.text` section of the PE.  The program will find the section which maps to the `AddressOfEntryPoint` XOR encrypt the section with a 1 byte key and either inject decrypting shellcode into the slack space of that section if there is enough free bytes or create a new section with the decryption shellcode data.  During runtime the shellcode will decrypt the main code section and upon its completion will jump back to the original entrypoint.  
+
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
 
