@@ -58,7 +58,20 @@ This technique XOR encrypts the main code section which is primarily the `.text`
 </p>
 
 ### Section Addition
-Random data sections can also be added to a PE file in another attempt to try and confuse machine learnine malware classifers.  Sections from legitimate Windows binaries were extracted and placed into the `data_sections` directory.  These sections are then used to try to create an "apperance" of a legitiamte Windows binary.  This technique is effective against classifiers that use N-Gram analysis as a feature.  
+Random data sections can also be added to a PE file in another attempt to try and confuse machine learnine malware classifers.  Sections from legitimate Windows binaries were extracted and placed into the `data_sections` directory.  These sections are then used to try to create an "apperance" of a legitiamte Windows binary.  This technique is effective against classifiers that use N-Gram analysis as a feature. 
+
+<br/>
+<p align="center">
+  <img width="560" height="225" src="images/before.PNG">
+  <p align="center"><i>PE Before Adding Sections</i></p>
+</p>
+
+<br/>
+<p align="center">
+  <img width="560" height="300" src="images/after.PNG">
+  <p align="center"><i>PE After Adding Sections</i></p>
+</p>
+
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
 
