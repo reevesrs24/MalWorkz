@@ -48,7 +48,7 @@ This technique XOR encrypts the main code section which is primarily the `.text`
 <br/>
 <p align="center">
   <img width="460" height="300" src="images/import_encryption.PNG">
-  <p align="center"><i>Representation of the memory mapping of the original sample and a modified version with unused spaces introduced by the attacker (Yuste et al., 2022)</i></p>
+  <p align="center"><i>Import Directory is Obfuscated</i></p>
 </p>
 
 ## Setup
