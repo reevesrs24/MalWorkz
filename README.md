@@ -89,9 +89,14 @@ Unzip `models.zip`
 Install Windows [SignTool](https://docs.microsoft.com/en-us/windows/win32/seccrypto/signtool).  This tool is used for signing PE files.  The MalWorkz engine will use `SignTool` in conjuction with a supplied `.pfx` file.  After `SignTool` is installed add the location to Windows system environment varibles so that the program may call it.  
 
 ## References
-MalConv Class/Model were taken from the repo - [Malware Evasion Competition](https://github.com/endgameinc/malware_evasion_competition)
+Ember, MalConv and Nonneg Malconv Classes and Model's were taken from the repo - [Malware Evasion Competition](https://github.com/endgameinc/malware_evasion_competition)
+</br>
+Ember White Paper - [EMBER: An Open Dataset for Training Static PE Malware
+Machine Learning Models](https://arxiv.org/pdf/1804.04637.pdf)
 </br>
 MalConv White Paper - [Malware Detection by Eating a Whole EXE](https://arxiv.org/pdf/1710.09435.pdf)
+</br>
+Nonneg Malconv White Paper - [Non-Negative Networks Against Adversarial Attacks](https://arxiv.org/pdf/1806.06108.pdf)
 </br>
 Code Cave White Paper - [Optimization of code caves in malware binaries to evade machine learning detectors](https://www.sciencedirect.com/science/article/pii/S0167404822000426)
 </br>
