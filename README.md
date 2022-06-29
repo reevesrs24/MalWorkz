@@ -76,10 +76,45 @@ This technique merely uses a list of common PE section names and renames the sec
 </p>
 
 ### PE Signing
-Digitally signing the PE with a self signed certificate was also incorporated into the engine dince some malware classifiers use a digital signture as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`.  
+Digitally signing the PE with a self signed certificate was also incorporated into the engine dince some malware classifiers use a digital signture as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`. 
 
 ## How to Use
+MalWorkz allows for a number of custom parameters: `malware_path`, `new_pe_name`, `step`, `threshold`, `model`, `max_epochs` and `action_set`.
 
+`malware_path`: Path to the malware executable which is to me modified.
+</br>
+`new_pe_name`: The name of the PE file which will be output.
+</br>
+`step`:  This is the minimal drop in the prediction score that the program will accept in order to keep the modification to the PE.
+</br>
+`threshold`: The minimal value that the prediction score must be for the program to finish.
+</br>
+`model`: The machine learning model to be used. MalWorkz comes with 3 differnt models `ember`, `malconv` and `nonneg_malconv`.
+</br>
+`max_epochs`: The max number of iterations that the program will run if the `threshold` is not met.
+</br>
+`action_set`: A list of actions that MalWorkz will incorporate while running.
+</br>
+
+```python
+m = MalWorkz(
+        malware_path="malware/malware.exe",
+        new_pe_name="new.exe",
+        step=0.000001,
+        threshold=0.82,
+        model="ember",
+        max_epochs=10000,
+        action_set=[
+            ActionSet.RANDOMIZE_HEADERS,
+            ActionSet.ADD_SECTION,
+            ActionSet.ADD_CODE_CAVE,
+            ActionSet.ADD_STUB_AND_ENCRYPT_CODE,
+            ActionSet.RENAME_EXISTING_SECTION,
+            ActionSet.SIGN_PE,
+        ],
+    )
+    m.generate_adversarial_pe()
+```
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
 
