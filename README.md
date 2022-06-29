@@ -96,8 +96,14 @@ MalWorkz allows for a number of custom parameters: `malware_path`, `new_pe_name`
 `action_set`: A list of actions that MalWorkz will incorporate while running.
 </br>
 
+To run simply execute the method `generate_adversarial_pe()`.
+
 ```python
-m = MalWorkz(
+from MalWorkz.MalWorkz import MalWorkz, ActionSet
+
+
+def main():
+    m = MalWorkz(
         malware_path="malware/malware.exe",
         new_pe_name="new.exe",
         step=0.000001,
@@ -114,7 +120,12 @@ m = MalWorkz(
         ],
     )
     m.generate_adversarial_pe()
+
+
+if __name__ == "__main__":
+    main()
 ```
+
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
 
