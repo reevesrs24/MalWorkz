@@ -13,6 +13,12 @@ MalWorkz is a reinforcment learning engine that attempts to bypass machine learn
 5.  Section Renaming
 6.  PE Signing
 
+<br/>
+<p align="center">
+  <img width="700" height="600" src="images/malworkz_flow_chart.png">
+  <p align="center"><i>MalWorkz flow chart</i></p>
+</p>
+
 ### Header Randomizatiom
 There are a number of PE header's that can be randomly chosen which will not effect the behavior of the PE nor corrupt the image.  The headers which will be manipulated are 
 1. `DllCharacteristics` (Optional Header)
