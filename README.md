@@ -102,7 +102,7 @@ MalWorkz allows for the user to customize 8 different parameters to facilitate t
 `max_pe_size_bytes`:  The max PE file size that MalWorkz will generate.  Parameter value is in number of bytes.
 </br>
 </nr>
-`model`: The machine learning model to be used. MalWorkz out of the box comes with 3 different models `ember`, `malconv` and `nonneg_malconv`.
+`model`: Specifies the machine learning model to be used. MalWorkz out of the box comes with 3 different models `ember`, `malconv` and `nonneg_malconv`.
 </br>
 </br>
 `max_epochs`: The max number of iterations that the program will run if the `threshold` is not met.
