@@ -172,3 +172,5 @@ Nonneg Malconv White Paper - [Non-Negative Networks Against Adversarial Attacks]
 Code Cave White Paper - [Optimization of code caves in malware binaries to evade machine learning detectors](https://www.sciencedirect.com/science/article/pii/S0167404822000426)
 </br>
 RootedCon 2020 Code Cave Talk - [Evading Deep Learning Malware Detectors](https://www.youtube.com/watch?v=Qp4hx6HTHrQ)
+</br>
+Machine Learning Security Evasion Competition - [mlsec.io](https://mlsec.io/)
