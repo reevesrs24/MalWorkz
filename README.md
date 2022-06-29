@@ -58,7 +58,81 @@ This technique XOR encrypts the main code section which is primarily the `.text`
 </p>
 
 ### Section Addition
-Random data sections can also be added to a PE file in another attempt to try and confuse machine learnine malware classifers.  Sections from legitimate Windows binaries were extracted and placed into the `data_sections` directory.  These sections are then used to try to create an "apperance" of a legitiamte Windows binary.  This technique is effective against classifiers that use N-Gram analysis as a feature.  
+Random data sections can also be added to a PE file in another attempt to try and confuse machine learnine malware classifers.  Sections from legitimate Windows binaries were extracted and placed into the `data_sections` directory.  These sections are then used to try to create an "apperance" of a legitiamte Windows binary.  This technique is effective against classifiers that use N-Gram analysis as a feature. 
+
+### Section Renaming
+This technique merely uses a list of common PE section names and renames the section with a name from that list.  Common section names are `.ndata`, `.bss`, `edata`, `00cfg`, etc.
+
+<br/>
+<p align="center">
+  <img width="560" height="225" src="images/before.PNG">
+  <p align="center"><i>PE Before Adding Sections</i></p>
+</p>
+
+<br/>
+<p align="center">
+  <img width="560" height="300" src="images/after.PNG">
+  <p align="center"><i>PE After Adding Sections</i></p>
+</p>
+
+### PE Signing
+Digitally signing the PE with a self signed certificate was also incorporated into the engine dince some malware classifiers use a digital signture as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`. 
+
+## How to Use
+MalWorkz allows for the user to customize 7 different parameters to facilitate the generating of an adversarial PE.  
+
+`malware_path`: Path to the malware executable which is to me modified.
+</br>
+</br>
+`new_pe_name`: The name of the PE file which will be output.
+</br>
+</br>
+`step`:  This is the minimal drop in the prediction score that the program will accept in order to keep the modification to the PE.
+</br>
+</br>
+`threshold`: The minimal value that the prediction score must be for the program to finish.
+</br>
+</br>
+`model`: The machine learning model to be used. MalWorkz out of the box comes with 3 different models `ember`, `malconv` and `nonneg_malconv`.
+</br>
+</br>
+`max_epochs`: The max number of iterations that the program will run if the `threshold` is not met.
+</br>
+</br>
+`action_set`: A list of actions that MalWorkz will incorporate while running.
+</br>
+</br>
+
+To run simply execute the method `generate_adversarial_pe()`.
+
+```python
+from MalWorkz.MalWorkz import MalWorkz, ActionSet
+
+
+def main():
+    m = MalWorkz(
+        malware_path="malware/malware.exe",
+        new_pe_name="new.exe",
+        step=0.000001,
+        threshold=0.82,
+        model="ember",
+        max_epochs=10000,
+        action_set=[
+            ActionSet.RANDOMIZE_HEADERS,
+            ActionSet.ADD_SECTION,
+            ActionSet.ADD_CODE_CAVE,
+            ActionSet.ADD_STUB_AND_ENCRYPT_CODE,
+            ActionSet.RENAME_EXISTING_SECTION,
+            ActionSet.SIGN_PE,
+        ],
+    )
+    m.generate_adversarial_pe()
+
+
+if __name__ == "__main__":
+    main()
+```
+
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
 
@@ -69,3 +143,17 @@ pip install -r requirements.txt
 Unzip `models.zip`
 
 Install Windows [SignTool](https://docs.microsoft.com/en-us/windows/win32/seccrypto/signtool).  This tool is used for signing PE files.  The MalWorkz engine will use `SignTool` in conjuction with a supplied `.pfx` file.  After `SignTool` is installed add the location to Windows system environment varibles so that the program may call it.  
+
+## References
+Ember, MalConv and Nonneg Malconv Classes and Model's were taken from the repo - [Malware Evasion Competition](https://github.com/endgameinc/malware_evasion_competition)
+</br>
+Ember White Paper - [EMBER: An Open Dataset for Training Static PE Malware
+Machine Learning Models](https://arxiv.org/pdf/1804.04637.pdf)
+</br>
+MalConv White Paper - [Malware Detection by Eating a Whole EXE](https://arxiv.org/pdf/1710.09435.pdf)
+</br>
+Nonneg Malconv White Paper - [Non-Negative Networks Against Adversarial Attacks](https://arxiv.org/pdf/1806.06108.pdf)
+</br>
+Code Cave White Paper - [Optimization of code caves in malware binaries to evade machine learning detectors](https://www.sciencedirect.com/science/article/pii/S0167404822000426)
+</br>
+RootedCon 2020 Code Cave Talk - [Evading Deep Learning Malware Detectors](https://www.youtube.com/watch?v=Qp4hx6HTHrQ)
