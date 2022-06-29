@@ -138,7 +138,7 @@ if __name__ == "__main__":
 ```
 <br/>
 <p align="center">
-  <img width="1000" height="300" src="gifs/malworkz.gif">
+  <img width="1000" height="250" src="gifs/malworkz.gif">
   <p align="center"><i>MalWorkz in Action</i></p>
 </p>
 
