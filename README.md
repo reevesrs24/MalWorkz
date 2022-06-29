@@ -78,6 +78,8 @@ This technique merely uses a list of common PE section names and renames the sec
 ### PE Signing
 Digitally signing the PE with a self signed certificate was also incorporated into the engine dince some malware classifiers use a digital signture as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`.  
 
+## How to Use
+
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
 
