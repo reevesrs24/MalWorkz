@@ -79,21 +79,28 @@ This technique merely uses a list of common PE section names and renames the sec
 Digitally signing the PE with a self signed certificate was also incorporated into the engine dince some malware classifiers use a digital signture as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`. 
 
 ## How to Use
-MalWorkz allows for a number of custom parameters: `malware_path`, `new_pe_name`, `step`, `threshold`, `model`, `max_epochs` and `action_set`.
+MalWorkz allows for the user to customize 7 different parameters to facilitate the generating of an adversarial PE.  
 
 `malware_path`: Path to the malware executable which is to me modified.
 </br>
+</br>
 `new_pe_name`: The name of the PE file which will be output.
+</br>
 </br>
 `step`:  This is the minimal drop in the prediction score that the program will accept in order to keep the modification to the PE.
 </br>
+</br>
 `threshold`: The minimal value that the prediction score must be for the program to finish.
 </br>
-`model`: The machine learning model to be used. MalWorkz comes with 3 differnt models `ember`, `malconv` and `nonneg_malconv`.
+</br>
+`model`: The machine learning model to be used. MalWorkz out of the box comes with 3 different models `ember`, `malconv` and `nonneg_malconv`.
+</br>
 </br>
 `max_epochs`: The max number of iterations that the program will run if the `threshold` is not met.
 </br>
+</br>
 `action_set`: A list of actions that MalWorkz will incorporate while running.
+</br>
 </br>
 
 To run simply execute the method `generate_adversarial_pe()`.
