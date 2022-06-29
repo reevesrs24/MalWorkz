@@ -57,6 +57,8 @@ This technique XOR encrypts the main code section which is primarily the `.text`
   <p align="center"><i>Python LIEF Module Attempting to Read the Import Table</i></p>
 </p>
 
+### Section Addition
+Random data sections can also be added to a PE file in another attempt to try and confuse machine learnine malware classifers.  Sections from legitimate Windows binaries were extracted and placed into the `data_sections` directory.  These sections are then used to try to create an "apperance" of a legitiamte Windows binary.  This technique is effective against classifiers that use N-Gram analysis as a feature.  
 ## Setup
 Python version `3.6` <b>MUST</b> be used.  
 
