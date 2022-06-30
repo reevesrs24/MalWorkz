@@ -1,11 +1,11 @@
 # MalWorkz
-A Reinforcement Learning Engine for Bypassing Machine Learning Classifiers
+A Reinforcement Learning Engine for Bypassing Malware Machine Learning Classifiers
 
 >“Mistakes” is the word you’re too embarrassed to use. You ought not to be. You’re a product of a trillion of them. Evolution forged the entirety of sentient life on this planet using only one tool: the mistake.\
 >\- *Robert Ford* 
 
 ## Overview
-MalWorkz is a reinforcment learning engine that attempts to bypass machine learning classifers by manipulating a Portable Executable (PE) file through a set of 6 distinct methods.  Works with x32 PE/.NET/.dll files and with a variety of file formats such as UPX or MSI.  The 6 different obfuscation techniques utilized in this engine are 
+MalWorkz is a reinforcment learning engine that attempts to bypass malware machine learning classifers by manipulating a Portable Executable (PE) file through a set of 6 distinct methods.  Works with x32 PE/.NET/.dll files and with a variety of file formats such as UPX or MSI.  The 6 different obfuscation techniques utilized in this engine are 
 1.  Header Randomization
 2.  Code Cave Creation
 3.  AddressOfEntryPoint Section Encryption
@@ -66,9 +66,6 @@ This technique XOR encrypts the main code section which is primarily the `.text`
 ### Section Addition
 Random data sections can also be added to a PE file in another attempt to try and confuse machine learnine malware classifers.  Sections from legitimate Windows binaries were extracted and placed into the `data_sections` directory.  These sections are then used to try to create an "apperance" of a legitiamte Windows binary.  This technique is effective against classifiers that use N-Gram analysis as a feature. 
 
-### Section Renaming
-This technique merely uses a list of common PE section names and renames the section with a name from that list.  Common section names are `.ndata`, `.bss`, `edata`, `00cfg`, etc.
-
 <br/>
 <p align="center">
   <img width="560" height="225" src="images/before.PNG">
@@ -81,8 +78,11 @@ This technique merely uses a list of common PE section names and renames the sec
   <p align="center"><i>PE After Adding Sections</i></p>
 </p>
 
+### Section Renaming
+This technique merely uses a list of common PE section names and renames the section with a name from that list.  Common section names are `.ndata`, `.bss`, `edata`, `00cfg`, etc.
+
 ### PE Signing
-Digitally signing the PE with a self signed certificate was also incorporated into the engine dince some malware classifiers use a digital signture as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`. 
+Digitally signing the PE with a self signed certificate was also incorporated into the engine since some malware classifiers use a digital signature as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`. 
 
 ## How to Use
 MalWorkz allows for the user to customize 8 different parameters to facilitate the generating of an adversarial PE.  
@@ -101,8 +101,8 @@ MalWorkz allows for the user to customize 8 different parameters to facilitate t
 </br>
 `max_pe_size_bytes`:  The max PE file size that MalWorkz will generate.  Parameter value is in number of bytes.
 </br>
-</nr>
-`model`: The machine learning model to be used. MalWorkz out of the box comes with 3 different models `ember`, `malconv` and `nonneg_malconv`.
+</br>
+`model`: Specifies the machine learning model to be used. MalWorkz out of the box comes with 3 different models `ember`, `malconv` and `nonneg_malconv`.
 </br>
 </br>
 `max_epochs`: The max number of iterations that the program will run if the `threshold` is not met.
@@ -172,3 +172,5 @@ Nonneg Malconv White Paper - [Non-Negative Networks Against Adversarial Attacks]
 Code Cave White Paper - [Optimization of code caves in malware binaries to evade machine learning detectors](https://www.sciencedirect.com/science/article/pii/S0167404822000426)
 </br>
 RootedCon 2020 Code Cave Talk - [Evading Deep Learning Malware Detectors](https://www.youtube.com/watch?v=Qp4hx6HTHrQ)
+</br>
+Machine Learning Security Evasion Competition - [mlsec.io](https://mlsec.io/)
