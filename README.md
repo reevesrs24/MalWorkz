@@ -82,7 +82,7 @@ Random data sections can also be added to a PE file in another attempt to try an
 This technique merely uses a list of common PE section names and renames the section with a name from that list.  Common section names are `.ndata`, `.bss`, `edata`, `00cfg`, etc.
 
 ### PE Signing
-Digitally signing the PE with a self signed certificate was also incorporated into the engine dince some malware classifiers use a digital signture as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`. 
+Digitally signing the PE with a self signed certificate was also incorporated into the engine since some malware classifiers use a digital signature as a feature.  A certifcate is supplied `mycert.pfx` and is used in conjuction with the Windows tool `SignTool`. 
 
 ## How to Use
 MalWorkz allows for the user to customize 8 different parameters to facilitate the generating of an adversarial PE.  
