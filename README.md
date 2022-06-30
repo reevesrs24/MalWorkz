@@ -142,6 +142,13 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+</br>
+</br>
+<p align="center">
+  <img width="1000" height="250" src="gifs/malworkz.gif">
+  <p align="center"><i>MalWorkz in Action</i></p>
+</p>
+
 ## Best Practices
 Modifying the PE may ultimately break its functionality.  In order to mitigate any potential breakage the pertubation techniques were specifically chosen to mitigate breaking the PE, but due to the high variance of PE structures the possibility is still not zero.  The program may have to be run several times in order to get a working PE depending on its underlying structure.  In some cases getting a working PE that bypasses a model is a bit more art than science.  Experimenting with the  `action_set` and `step` parameters are the best way to get a working PE while still bypassing a specific model.  The `step` parameter can help reduce the overall amount of actions applied while trying to bypass a model.  The more actions taken the higher the probability that the PE will break.  This parameter can help choose actions that have a greater impact on reducing the prediction score.  Removing an action from the `action_set` may also be an option for when a specific action is breaking the PE fucntionality.  In some cases experimentation is essential to create a PE that both bypasses a model and functions identically.  
 </br>
@@ -149,13 +156,7 @@ Modifying the PE may ultimately break its functionality.  In order to mitigate a
 
 <p align="center">
   <img width="760" height="450" src="gifs/GandCrab_SandBox.gif">
-  <p align="center"><i>GandCrab w/ code caves running in sandbox</i></p>
-</p>
-</br>
-</br>
-<p align="center">
-  <img width="1000" height="250" src="gifs/malworkz.gif">
-  <p align="center"><i>MalWorkz in Action</i></p>
+  <p align="center"><i>Adversarial GandCrab running in sandbox</i></p>
 </p>
 
 ## Setup
