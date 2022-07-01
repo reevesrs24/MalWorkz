@@ -135,6 +135,7 @@ class MalWorkz:
                 entrpoint_virt_addr + entrypoint_virt_size
             ):
                 self.state.action_set.remove(ActionSet.ADD_STUB_AND_ENCRYPT_CODE)
+                del self.state.weights[ActionSet.ADD_STUB_AND_ENCRYPT_CODE]
                 print(
                     "Entrypoint collision - Data Directory maps to entrypoint removing ActionSet.ADD_STUB_AND_ENCRYPT_CODE\n"
                 )
