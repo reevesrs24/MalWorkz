@@ -98,6 +98,7 @@ class MalWorkz:
         self.set_section_info()
         self.set_section_data_choices()
         self.check_entrypoint_collsion()
+        self.remove_digital_signature()
 
     def set_section_info(self):
         for i in range(len(self.pe.sections)):
@@ -411,8 +412,6 @@ class MalWorkz:
         return section_name
 
     def add_stub_and_encrypt_code_section(self):
-        self.remove_digital_signature()
-
         last_section = self.pe.sections[-1]
         self.pe.FILE_HEADER.Characteristics = (
             0x00000001 | 0x00000002 | 0x00000100
