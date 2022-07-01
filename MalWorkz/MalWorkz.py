@@ -690,14 +690,15 @@ class MalWorkz:
     def write(self):
         try:
             self.pe.OPTIONAL_HEADER.CheckSum = self.pe.generate_checksum()
+            self.pe.write(self.new_pe_name)
+            self.pe.close()
         except Exception as e:
             print("Error: unable to compute checksum - {}".format(e))
 
         if os.path.exists("temp/"):
             shutil.rmtree("temp/")
 
-        self.pe.write(self.new_pe_name)
-        self.pe.close()
+
 
     def update_action_weights(self):
         self.state.weights[self.state.action_list[-1]] += 1
