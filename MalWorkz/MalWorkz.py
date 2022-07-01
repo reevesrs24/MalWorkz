@@ -55,6 +55,7 @@ class State:
         self.prediction_to_beat = 1
         self.pe_past_section_info_state = None
         self.action_set = action_set
+        self.weights = {self.action_set[i]:1 for i in range(len(self.action_set))}
 
 
 class MalWorkz:
@@ -698,8 +699,11 @@ class MalWorkz:
         self.pe.write(self.new_pe_name)
         self.pe.close()
 
+    def update_action_weights(self):
+        self.state.weights[self.state.action_list[-1]] += 1
+
     def select_random_action(self):
-        return random.choice(self.state.action_set)
+        return random.choices(self.state.action_set, weights=tuple([v for k,v in self.state.weights.items()]), k=1)[0]
 
     def execute_action(self, action):
         if action == ActionSet.RANDOMIZE_HEADERS:
@@ -766,6 +770,9 @@ class MalWorkz:
                     or self.state.action_list[-1] == ActionSet.SIGN_PE
                 ):
                     self.state.action_set.remove(self.state.action_list[-1])
+                    del self.state.weights[self.state.action_list[-1]]
+                else:
+                    self.update_action_weights()
             else:
                 self.pe = copy.deepcopy(self.state.pe_past_state)
                 self.section_info = copy.deepcopy(self.state.pe_past_section_info_state)
