@@ -20,7 +20,15 @@ MalWorkz is a reinforcment learning engine that attempts to bypass malware machi
 </p>
 
 ### Header Randomizatiom
-There are a number of PE header's that can be randomly chosen which will not effect the behavior of the PE nor corrupt the image.  The headers which will be manipulated are 
+PE header's are a commonly feature for many anti-malware machine learning models and can be a powerful indicator for whether the PE file is malware.  There are a number of PE header's that can be manipulated which will not effect the behavior nor corrupt the image.  According to the white paper [Selecting Features to Classify Malware](https://2012.infosecsouthwest.com/files/speaker_materials/ISSW2012_Selecting_Features_to_Classify_Malware.pdf) by Karthik Raman the headers most relevant for determining whether a PE file is malicious or benign are `DebugSize`, `DebugRVA`, `ImageVersion`, `OperatingSystemVersion`, `SizeOfStackReserve`, `LinkerVersion`, `DllCharacteristics`, `IatRVA`, `ExportSize`, `ExportRVA`, `ExportNameLen`, `ResourceSize` and `ExportFunctionsCount`.
+
+<br/>
+<p align="center">
+  <img width="400" height="400" src="images/feature_eval.PNG">
+  <p align="center"><i>PE header feature evaluation (Raman, Karthik 2012)</i></p>
+</p>
+
+However not all of the the headers listed above can be manipulated without potentially breaking the PE functionality. The PE headers MalWorkz will manipulate are:
 1. `DllCharacteristics` (Optional Header)
 2. `Characteristics` (File Header)
 3. `Debug Directory RVA` (Zeroed Out)
