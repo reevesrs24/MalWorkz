@@ -188,6 +188,8 @@ MalConv White Paper - [Malware Detection by Eating a Whole EXE](https://arxiv.or
 </br>
 Nonneg Malconv White Paper - [Non-Negative Networks Against Adversarial Attacks](https://arxiv.org/pdf/1806.06108.pdf)
 </br>
+Malware Feature Selection White Paper - [Selecting Features to Classify Malware](https://2012.infosecsouthwest.com/files/speaker_materials/ISSW2012_Selecting_Features_to_Classify_Malware.pdf)
+</br>
 Code Cave White Paper - [Optimization of code caves in malware binaries to evade machine learning detectors](https://www.sciencedirect.com/science/article/pii/S0167404822000426)
 </br>
 RootedCon 2020 Code Cave Talk - [Evading Deep Learning Malware Detectors](https://www.youtube.com/watch?v=Qp4hx6HTHrQ)
