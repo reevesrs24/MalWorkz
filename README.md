@@ -20,7 +20,7 @@ MalWorkz is a reinforcment learning engine that attempts to bypass malware machi
 </p>
 
 ### Header Randomizatiom
-PE header's are a commonly used feature for many anti-malware machine learning models and can be a powerful indicator for whether the PE file is malware.  There are a number of PE header's that can be manipulated which will not effect the behavior nor corrupt the image.  According to the white paper [Selecting Features to Classify Malware](https://2012.infosecsouthwest.com/files/speaker_materials/ISSW2012_Selecting_Features_to_Classify_Malware.pdf) by Karthik Raman the headers most relevant for determining whether a PE file is malicious or benign are `DebugSize`, `DebugRVA`, `ImageVersion`, `OperatingSystemVersion`, `SizeOfStackReserve`, `LinkerVersion`, `DllCharacteristics`, `IatRVA`, `ExportSize`, `ExportRVA`, `ExportNameLen`, `ResourceSize` and `ExportFunctionsCount`.
+PE header's are a commonly used feature for many anti-malware machine learning models and can be a powerful indicator for whether the PE file is malware.  There are a number of PE header's that can be manipulated which will not affect the behavior nor corrupt the image.  According to the white paper [Selecting Features to Classify Malware](https://2012.infosecsouthwest.com/files/speaker_materials/ISSW2012_Selecting_Features_to_Classify_Malware.pdf) by Karthik Raman the headers most relevant for determining whether a PE file is malicious or benign are `DebugSize`, `DebugRVA`, `ImageVersion`, `OperatingSystemVersion`, `SizeOfStackReserve`, `LinkerVersion`, `DllCharacteristics`, `IatRVA`, `ExportSize`, `ExportRVA`, `ExportNameLen`, `ResourceSize` and `ExportFunctionsCount`.
 
 <br/>
 <p align="center">
