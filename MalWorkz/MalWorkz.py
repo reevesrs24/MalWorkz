@@ -55,7 +55,7 @@ class State:
         self.prediction_to_beat = 1
         self.pe_past_section_info_state = None
         self.action_set = action_set
-        self.weights = {self.action_set[i]:1 for i in range(len(self.action_set))}
+        self.weights = {self.action_set[i]: 1 for i in range(len(self.action_set))}
 
 
 class MalWorkz:
@@ -122,7 +122,9 @@ class MalWorkz:
 
         # Check if .NET
         if (
-            self.pe.OPTIONAL_HEADER.DATA_DIRECTORY[
+            len(self.pe.OPTIONAL_HEADER.DATA_DIRECTORY)
+            >= pefile.DIRECTORY_ENTRY["IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR"]
+            and self.pe.OPTIONAL_HEADER.DATA_DIRECTORY[
                 pefile.DIRECTORY_ENTRY["IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR"]
             ].VirtualAddress
             != 0
@@ -509,7 +511,9 @@ class MalWorkz:
 
     def sign_exe(self):
         try:
-            command = "signtool sign /f MalWorkz/mycert.pfx /p MyPassword /fd SHA256 {}".format(self.new_pe_name)
+            command = "signtool sign /f MalWorkz/mycert.pfx /p MyPassword /fd SHA256 {}".format(
+                self.new_pe_name
+            )
             subprocess.check_call(
                 shlex.split(command),
                 stdin=subprocess.DEVNULL,
@@ -698,13 +702,15 @@ class MalWorkz:
         if os.path.exists("temp/"):
             shutil.rmtree("temp/")
 
-
-
     def update_action_weights(self):
         self.state.weights[self.state.action_list[-1]] += 1
 
     def select_random_action(self):
-        return random.choices(self.state.action_set, weights=tuple([v for k,v in self.state.weights.items()]), k=1)[0]
+        return random.choices(
+            self.state.action_set,
+            weights=tuple([v for k, v in self.state.weights.items()]),
+            k=1,
+        )[0]
 
     def execute_action(self, action):
         if action == ActionSet.RANDOMIZE_HEADERS:
