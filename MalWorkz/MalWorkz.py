@@ -11,6 +11,7 @@ import shutil
 import warnings
 import subprocess
 import collections
+import requests
 
 from enum import IntEnum
 from functools import reduce
@@ -58,6 +59,7 @@ class State:
         self.weights = {self.action_set[i]: 1 for i in range(len(self.action_set))}
 
 
+
 class MalWorkz:
     def __init__(
         self,
@@ -76,6 +78,8 @@ class MalWorkz:
             ActionSet.RENAME_EXISTING_SECTION,
             ActionSet.SIGN_PE,
         ],
+        avs=[],
+        virustotal_api_key=None
     ):
         self.pe = pefile.PE(malware_path)
         self.step = step
@@ -91,6 +95,8 @@ class MalWorkz:
         self.section_info = collections.OrderedDict()
         self.pe.__data__ = bytearray(self.pe.__data__)
         self.is_dll = self.pe.FILE_HEADER.IMAGE_FILE_DLL
+        self.avs = avs
+        self.virustotal_api_key = virustotal_api_key
 
         self.setup()
 
@@ -112,6 +118,7 @@ class MalWorkz:
                 SECTION_LIST.remove(section_name)
 
     def set_section_data_choices(self):
+        
         section_choices = glob.glob("data_sections/*")
         for i in range(len(section_choices)):
             file_size = os.path.getsize(section_choices[i])
@@ -415,9 +422,13 @@ class MalWorkz:
 
     def add_stub_and_encrypt_code_section(self):
         last_section = self.pe.sections[-1]
+
+        # IMAGE_FILE_RELOCS_STRIPPED | IMAGE_FILE_EXECUTABLE_IMAGE | IMAGE_FILE_32BIT_MACHINE | IMAGE_FILE_DLL
         self.pe.FILE_HEADER.Characteristics = (
-            0x00000001 | 0x00000002 | 0x00000100
-        )  # IMAGE_FILE_RELOCS_STRIPPED | IMAGE_FILE_EXECUTABLE_IMAGE | IMAGE_FILE_32BIT_MACHINE
+            0x00000001 | 0x00000002 | 0x00000100 | 0x00002000
+            if self.is_dll
+            else 0x00000001 | 0x00000002 | 0x00000100
+        )
 
         (
             entrypoint_section_name,
@@ -525,34 +536,34 @@ class MalWorkz:
 
     def randomize_headers(self):
         dll_characteristics = [
-            0x0020,  # IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
-            0x0040,  # IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
+            0x0020,   # IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA
+            0x0040,   # IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE
             # 0x0080, # IMAGE_DLLCHARACTERISTICS_FORCE_INTEGRITY
-            0x0100,  # IMAGE_DLLCHARACTERISTICS_NX_COMPAT
-            0x0200,  # IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
-            0x0400,  # IMAGE_DLLCHARACTERISTICS_NO_SEH
-            0x0800,  # IMAGE_DLLCHARACTERISTICS_NO_BIND
+            0x0100,   # IMAGE_DLLCHARACTERISTICS_NX_COMPAT
+            0x0200,   # IMAGE_DLLCHARACTERISTICS_NO_ISOLATION
+            0x0400,   # IMAGE_DLLCHARACTERISTICS_NO_SEH
+            0x0800,   # IMAGE_DLLCHARACTERISTICS_NO_BIND
             # 0x1000, # IMAGE_DLLCHARACTERISTICS_APPCONTAINER
-            0x2000,  # IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+            0x2000,   # IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
             # 0x4000, # IMAGE_DLLCHARACTERISTICS_GUARD_CF
-            0x8000,  # IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
+            0x8000,   # IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE
         ]
 
         file_header_characteristics = [
             # 0x0001, # IMAGE_FILE_RELOCS_STRIPPED
             # 0x0002, # IMAGE_FILE_EXECUTABLE_IMAGE
-            0x0004,  # IMAGE_FILE_LINE_NUMS_STRIPPED
-            0x0008,  # IMAGE_FILE_LOCAL_SYMS_STRIPPED
-            0x0010,  # IMAGE_FILE_AGGRESIVE_WS_TRIM
-            0x0020,  # IMAGE_FILE_LARGE_ADDRESS_AWARE
+            0x0004,   # IMAGE_FILE_LINE_NUMS_STRIPPED
+            0x0008,   # IMAGE_FILE_LOCAL_SYMS_STRIPPED
+            0x0010,   # IMAGE_FILE_AGGRESIVE_WS_TRIM
+            0x0020,   # IMAGE_FILE_LARGE_ADDRESS_AWARE
             # 0x0080, # IMAGE_FILE_BYTES_REVERSED_LO
-            0x0100,  # IMAGE_FILE_32BIT_MACHINE
-            0x0200,  # IMAGE_FILE_DEBUG_STRIPPED
-            0x0400,  # IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP
-            0x0800,  # IMAGE_FILE_NET_RUN_FROM_SWAP
-            0x1000,  # IMAGE_FILE_SYSTEM
+            0x0100,   # IMAGE_FILE_32BIT_MACHINE
+            0x0200,   # IMAGE_FILE_DEBUG_STRIPPED
+            0x0400,   # IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP
+            0x0800,   # IMAGE_FILE_NET_RUN_FROM_SWAP
+            0x1000,   # IMAGE_FILE_SYSTEM
             # 0x2000, # IMAGE_FILE_DLL
-            0x4000,  # IMAGE_FILE_UP_SYSTEM_ONLY
+            0x4000,   # IMAGE_FILE_UP_SYSTEM_ONLY
             # 0x8000, # IMAGE_FILE_BYTES_REVERSED_HI
         ]
 
@@ -605,7 +616,8 @@ class MalWorkz:
 
         chosen_file_header_characteristics.append(0x0001)
         chosen_file_header_characteristics.append(0x0002)
-        if self.pe.FILE_HEADER.IMAGE_FILE_DLL:
+
+        if self.is_dll:
             chosen_file_header_characteristics.append(0x2000)
 
         self.pe.FILE_HEADER.Characteristics = reduce(
@@ -736,6 +748,12 @@ class MalWorkz:
         elif self.model == "ember":
             ember_model = EmberModel(EMBER_MODEL_PATH, thresh=0.8336)
             return ember_model.predict(file_data)
+        elif self.model == "virustotal":
+            results = self.file_submit(file_data)
+            if 'malicious' in results:
+                return  EmberModel(EMBER_MODEL_PATH, thresh=0.8336).predict(file_data)
+            else:
+                return 0
 
         return 0
 
@@ -788,3 +806,39 @@ class MalWorkz:
             print("Epoch: {}".format(self.state.epoch))
             print("Prediction Score to Beat: {}".format(self.state.prediction_to_beat))
             print("Action List: {}\n".format(self.state.action_list))
+
+    def file_get(self, link):
+        results = []
+
+        headers = {
+            "accept": "application/json",
+            "x-apikey": self.virustotal_api_key
+        }
+
+        r = requests.get(link, headers=headers)
+        while r.json()['data']['attributes']['status'] == 'queued':
+            print(f"Virustotal Status: {{r.json()['data']['attributes']['status']}}")
+            r = requests.get(link, headers=headers)
+            time.sleep(30)
+
+        for av in self.avs:
+            results.append(r.json()['data']['attributes']['results'][av]['category'])
+            print(f"{r.json()['data']['attributes']['results'][av]['engine_name']} - {r.json()['data']['attributes']['results'][av]['category']}")
+
+        return results
+
+    def file_submit(self, pe_file):
+        
+        url = "https://www.virustotal.com/api/v3/files"
+
+        files = {"file": ("010", pe_file, "application/x-msdownload")}
+        headers = {
+            "accept": "application/json",
+            "x-apikey": self.virustotal_api_key
+        }
+
+        r = requests.post(url, files=files, headers=headers)
+        
+        results = self.file_get(r.json()['data']['links']['self'])
+
+        return results
