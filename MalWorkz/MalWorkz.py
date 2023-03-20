@@ -70,6 +70,9 @@ class MalWorkz:
         max_pe_size_bytes=2000000,
         model="ember",
         max_epochs=100,
+        avs=[],
+        virustotal_api_key=None,
+        use_virustotal=False,
         action_set=[
             ActionSet.RANDOMIZE_HEADERS,
             ActionSet.ADD_SECTION,
@@ -78,8 +81,6 @@ class MalWorkz:
             ActionSet.RENAME_EXISTING_SECTION,
             ActionSet.SIGN_PE,
         ],
-        avs=[],
-        virustotal_api_key=None
     ):
         self.pe = pefile.PE(malware_path)
         self.step = step
@@ -97,6 +98,7 @@ class MalWorkz:
         self.is_dll = self.pe.FILE_HEADER.IMAGE_FILE_DLL
         self.avs = avs
         self.virustotal_api_key = virustotal_api_key
+        self.use_virustotal = use_virustotal
 
         self.setup()
 
@@ -737,23 +739,21 @@ class MalWorkz:
     def evaluate(self):
         file_data = open(self.new_pe_name, "rb").read()
 
-        if self.model == "malconv":
-            malconv = MalConvModel(MALCONV_MODEL_PATH, thresh=0.5)
-            return malconv.predict(file_data)
-        elif self.model == "nonneg_malconv":
-            nonneg_malconv = MalConvModel(
-                NONNEG_MODEL_PATH, thresh=0.35, name="nonneg_malconv"
-            )
-            return nonneg_malconv.predict(file_data)
-        elif self.model == "ember":
-            ember_model = EmberModel(EMBER_MODEL_PATH, thresh=0.8336)
-            return ember_model.predict(file_data)
-        elif self.model == "virustotal":
+        models = {
+            "malconv":        MalConvModel(MALCONV_MODEL_PATH, thresh=0.5),
+            "nonneg_malconv": MalConvModel(NONNEG_MODEL_PATH, thresh=0.35, name="nonneg_malconv"),
+            "ember":          EmberModel(EMBER_MODEL_PATH, thresh=0.8336),
+        }
+
+        if self.use_virustotal:
             results = self.file_submit(file_data)
+            
             if 'malicious' in results:
-                return  EmberModel(EMBER_MODEL_PATH, thresh=0.8336).predict(file_data)
+                return models[self.model].predict(file_data)
             else:
                 return 0
+        else:
+            return models[self.model].predict(file_data)
 
         return 0
 

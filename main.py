@@ -12,6 +12,7 @@ def main():
         max_epochs=10000,
         virustotal_api_key=None,
         avs=['SentinelOne', 'CrowdStrike'],
+        use_virustotal=False,
         action_set=[
             ActionSet.RANDOMIZE_HEADERS,
             ActionSet.ADD_SECTION,
