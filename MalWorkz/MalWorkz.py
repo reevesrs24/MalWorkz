@@ -817,7 +817,7 @@ class MalWorkz:
 
         r = requests.get(link, headers=headers)
         while r.json()['data']['attributes']['status'] == 'queued':
-            print(f"Virustotal Status: {{r.json()['data']['attributes']['status']}}")
+            print(f"Virustotal Status: {r.json()['data']['attributes']['status']}")
             r = requests.get(link, headers=headers)
             time.sleep(30)
 
