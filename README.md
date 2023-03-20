@@ -135,6 +135,8 @@ def main():
         max_pe_size_bytes=2000000,
         model="ember",
         max_epochs=10000,
+        virustotal_api_key=None,
+        avs=['SentinelOne', 'CrowdStrike'],
         action_set=[
             ActionSet.RANDOMIZE_HEADERS,
             ActionSet.ADD_SECTION,
