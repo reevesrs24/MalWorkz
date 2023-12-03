@@ -756,7 +756,6 @@ class MalWorkz:
         else:
             return models[self.model].predict(file_data)
 
-        return 0
 
     def generate_adversarial_pe(self):
         self.state.pe_past_state = copy.deepcopy(self.pe)
