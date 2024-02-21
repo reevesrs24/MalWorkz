@@ -5,7 +5,7 @@ A Reinforcement Learning Engine for Bypassing Malware Machine Learning Classifie
 >\- *Robert Ford* 
 
 ## Overview
-MalWorkz is a reinforecment learning engine that attempts to bypass malware machine learning classifers by manipulating a Portable Executable (PE) file through a set of 6 distinct methods.  Works with x32 PE/.NET/.dll files and with a variety of file formats such as UPX or MSI.  The 6 different obfuscation techniques utilized in this engine are 
+MalWorkz is a reinforcement learning engine that attempts to bypass malware machine learning classifiers by manipulating a Portable Executable (PE) file through a set of 6 distinct methods.  Works with x32 PE/.NET/.dll files and with a variety of file formats such as UPX or MSI.  The 6 different obfuscation techniques utilized in this engine are 
 1.  Header Randomization
 2.  Code Cave Creation
 3.  AddressOfEntryPoint Section Encryption
